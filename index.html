@@ -1,0 +1,442 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Skarbiec: portfel inwestora — wiadomości, filmy, IKE, IKZE i PIT-38</title>
+  <meta name="description" content="Twoje spółki pod kontrolą: wiadomości, filmy z YouTube, raporty i dywidendy spółek z GPW w jednej aplikacji na iPhone'a. Do tego wynik portfela, IKE, IKZE i PIT-38. Dane zostają na telefonie.">
+  <meta property="og:title" content="Skarbiec: portfel inwestora">
+  <meta property="og:description" content="Twoje spółki pod kontrolą — wiadomości, filmy, raporty i dywidendy pod ręką. Aplikacja na iPhone'a, bez konta.">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <!-- Strona aplikacji (Marketing URL i Support URL w App Store Connect: …/ i …/#pomoc) + prywatnosc.html.
+       Publikowana z folderu pages/ na GitHub Pages. Samodzielna: bez zewnętrznych czcionek, stylów i skryptów (nic nie
+       łączy się z innymi serwisami). Kolory ikony aplikacji: biel i niebieski (#5a7bf2 → #2a43b0). Zrzuty w zrzuty/*.jpg
+       (z symulatora iPhone'a, przykładowy portfel, 598 px szerokości). -->
+  <style>
+    :root { color-scheme: light dark;
+      --bg: #ffffff; --tint: #f2f5ff; --line: #dfe5f6; --ink: #121a33; --muted: #566079; --blue: #3f63e0; --blue-2: #2a43b0;
+      --blue-3: #5a7bf2; --soft: #e6ecff; --gain: #14805a; --card: #ffffff; }
+    @media (prefers-color-scheme: dark) { :root {
+      --bg: #0b1020; --tint: #11182e; --line: #222c4a; --ink: #eef1fa; --muted: #a6aec4; --blue: #7d98ff; --blue-2: #2a43b0;
+      --blue-3: #5a7bf2; --soft: #1a2448; --gain: #4fc794; --card: #141c34; } }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--ink); font: 17px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    a { color: var(--blue); text-underline-offset: 3px; }
+    h1, h2, h3, .brand, .serif { font-family: ui-serif, "New York", "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif; }
+    .wrap { max-width: 1080px; margin: 0 auto; padding-left: 16px; padding-right: 16px; }
+    .num { font-variant-numeric: tabular-nums; }
+
+    /* nagłówek i pierwszy ekran na niebieskim gradiencie ikony */
+    .top { background: linear-gradient(160deg, var(--blue-3) 0%, var(--blue) 45%, var(--blue-2) 100%); color: #fff; overflow: hidden; }
+    header .wrap { display: flex; align-items: center; gap: 20px; padding-top: 18px; padding-bottom: 18px; }
+    .brand { display: flex; align-items: center; gap: 10px; font-size: 24px; font-weight: 600; color: #fff; text-decoration: none; }
+    .brand img { width: 30px; height: 30px; border-radius: 8px; box-shadow: 0 0 0 1px rgba(255, 255, 255, .35); }
+    nav { margin-left: auto; display: flex; gap: 22px; font-size: 15px; }
+    nav a { color: rgba(255, 255, 255, .88); text-decoration: none; }
+    nav a:hover { color: #fff; text-decoration: underline; }
+    .hero { display: grid; grid-template-columns: 1.1fr .9fr; gap: 40px; align-items: center; padding-top: 34px; padding-bottom: 0; }
+    .kicker { font-size: 13px; letter-spacing: .12em; text-transform: uppercase; color: rgba(255, 255, 255, .8); margin: 0; }
+    h1 { font-size: clamp(38px, 5.8vw, 64px); line-height: 1.04; font-weight: 600; letter-spacing: -.015em; margin: 14px 0 20px; }
+    h1 em { font-style: italic; font-weight: 500; color: #dbe4ff; }
+    .lead { font-size: 19px; color: rgba(255, 255, 255, .9); max-width: 540px; margin: 0; }
+    .cta { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 20px; margin: 30px 0 56px; }
+    .btn { display: inline-flex; align-items: center; gap: 9px; background: #fff; color: var(--blue-2); text-decoration: none;
+      font-weight: 700; font-size: 16px; padding: 13px 20px; border-radius: 12px; box-shadow: 0 10px 24px -12px rgba(10, 20, 60, .6); }
+    .btn svg { width: 19px; height: 19px; }
+    .btn[aria-disabled="true"] { cursor: default; }
+    .cta small { font-size: 14px; color: rgba(255, 255, 255, .85); }
+    .exhibit { position: relative; align-self: end; }
+    .phone { border: 8px solid #0d1222; border-radius: 40px; overflow: hidden; background: #0d1222; }
+    .phone img { display: block; width: 100%; height: auto; }
+    .exhibit .phone { width: 280px; margin: 0 0 0 auto; border-bottom: 0; border-radius: 40px 40px 0 0; box-shadow: 0 30px 60px -20px rgba(5, 10, 40, .7); }
+    .exhibit .phone img { margin-bottom: -40%; }
+    .chip { position: absolute; left: 0; bottom: 64px; background: var(--card); color: var(--ink); border-radius: 14px; padding: 12px 14px;
+      font-size: 14px; box-shadow: 0 16px 36px -14px rgba(5, 10, 40, .55); max-width: 250px; transform: rotate(-2deg); }
+    .chip b { display: block; font-size: 15px; }
+    .chip ul { list-style: none; padding: 0; margin: 6px 0 0; }
+    .chip li::before { content: "●"; color: var(--blue); font-size: 10px; margin-right: 7px; vertical-align: 2px; }
+
+    section { padding: 72px 0; }
+    .head { display: grid; grid-template-columns: 210px 1fr; gap: 24px; align-items: baseline; margin-bottom: 30px; }
+    .sec { font-size: 13px; letter-spacing: .12em; text-transform: uppercase; color: var(--blue); font-weight: 600; }
+    h2 { font-size: clamp(30px, 4vw, 42px); line-height: 1.1; font-weight: 600; margin: 0; letter-spacing: -.01em; }
+    .head p { grid-column: 2; margin: 8px 0 0; color: var(--muted); max-width: 640px; }
+
+    /* flagowa funkcja */
+    .flag { background: var(--tint); }
+    .flag-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
+    .facts { list-style: none; margin: 0; padding: 0; border-top: 2px solid var(--blue); }
+    .facts li { padding: 16px 0; border-bottom: 1px solid var(--line); }
+    .facts b { display: block; font-size: 18px; margin-bottom: 2px; }
+    .facts span { color: var(--muted); }
+    .duo { display: flex; gap: 18px; justify-content: center; }
+    .duo .phone { width: 230px; }
+    .duo .phone:nth-child(2) { margin-top: 48px; }
+
+    /* zakładki aplikacji */
+    .tab { display: grid; grid-template-columns: 1fr 300px; gap: 48px; align-items: center; padding: 40px 0; border-top: 1px solid var(--line); }
+    .tab:nth-child(even) { grid-template-columns: 300px 1fr; }
+    .tab:nth-child(even) .tab-text { order: 2; }
+    .tab-name { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--blue); background: var(--soft); border-radius: 999px; padding: 4px 12px; }
+    .tab h3 { font-size: 28px; font-weight: 600; margin: 12px 0 8px; line-height: 1.2; }
+    .tab p { color: var(--muted); margin: 0 0 10px; }
+    .tab ul { margin: 0; padding-left: 20px; color: var(--muted); }
+    .tab li { margin: 3px 0; }
+    .tab .phone { width: 100%; max-width: 300px; margin: 0 auto; box-shadow: 0 24px 50px -24px rgba(20, 35, 90, .45); }
+    .receipt { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px; font-size: 14px;
+      max-width: 360px; margin-top: 16px; }
+    .receipt h4 { margin: 0 0 6px; font-size: 14px; }
+    .line { display: flex; gap: 6px; align-items: baseline; margin: 2px 0; }
+    .line span { white-space: nowrap; }
+    .line i { flex: 1; border-bottom: 1px dotted var(--muted); opacity: .5; transform: translateY(-4px); }
+    .line b { font-variant-numeric: tabular-nums; white-space: nowrap; font-weight: 500; }
+    .line.total { border-top: 1px solid var(--ink); margin-top: 5px; padding-top: 4px; }
+    .line.total b, .line.total span { font-weight: 700; }
+    .gain { color: var(--gain); }
+
+    .band { background: linear-gradient(160deg, var(--blue) 0%, var(--blue-2) 100%); color: #fff; }
+    .band .sec { color: #dbe4ff; }
+    .band .head p { color: rgba(255, 255, 255, .85); }
+    .shots { display: flex; gap: 24px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 6px 2px 18px; }
+    .shots figure { flex: 0 0 auto; width: 210px; margin: 0; scroll-snap-align: start; }
+    .shots .phone { width: 100%; border-width: 6px; border-radius: 32px; border-color: #0a0f1e; }
+    .shots figcaption { font-size: 14px; color: rgba(255, 255, 255, .85); margin-top: 10px; }
+
+    .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; counter-reset: s; }
+    .steps div { border-top: 3px solid var(--blue); padding-top: 14px; }
+    .steps div::before { counter-increment: s; content: counter(s); display: block; font-family: ui-serif, "New York", Georgia, serif;
+      font-size: 52px; line-height: 1; color: var(--blue); margin-bottom: 8px; }
+    .steps h3 { font-size: 21px; margin: 0 0 6px; font-weight: 600; }
+    .steps p { margin: 0; color: var(--muted); }
+
+    .privacy { background: var(--tint); border-radius: 24px; padding: 40px 36px; }
+    .quote { font-family: ui-serif, "New York", "Iowan Old Style", Georgia, serif; font-size: clamp(26px, 3.6vw, 38px); line-height: 1.2;
+      margin: 0 0 24px; max-width: 820px; font-weight: 500; }
+    .pfacts { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--line); }
+    .pfacts div { padding: 14px 18px 4px 0; font-size: 15px; color: var(--muted); }
+    .pfacts b { display: block; color: var(--ink); font-size: 16px; }
+
+    .prices { border-top: 2px solid var(--blue); max-width: 820px; }
+    .price { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; padding: 18px 0; border-bottom: 1px solid var(--line); }
+    .price h3 { font-size: 24px; font-weight: 600; margin: 0; }
+    .price i { flex: 1; min-width: 40px; border-bottom: 2px dotted var(--line); transform: translateY(-6px); }
+    .price .amt { font-family: ui-serif, "New York", Georgia, serif; font-size: 28px; font-weight: 600; font-variant-numeric: tabular-nums; }
+    .price .amt small { font-family: -apple-system, BlinkMacSystemFont, sans-serif; font-size: 15px; color: var(--muted); font-weight: 400; }
+    .price p { flex-basis: 100%; margin: 0; color: var(--muted); font-size: 15px; }
+    .tag { font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: #fff; background: var(--blue);
+      padding: 2px 8px; border-radius: 6px; }
+    .fine { font-size: 14px; color: var(--muted); margin: 16px 0 0; max-width: 820px; }
+
+    .contact { font-size: 19px; margin: 0 0 22px; }
+    .faq { border-top: 2px solid var(--blue); max-width: 820px; }
+    details { border-bottom: 1px solid var(--line); padding: 14px 0; }
+    summary { cursor: pointer; list-style: none; font-weight: 600; display: flex; gap: 12px; }
+    summary::-webkit-details-marker { display: none; }
+    summary::before { content: "+"; color: var(--blue); font-weight: 700; width: 14px; flex: none; }
+    details[open] summary::before { content: "−"; }
+    details p { margin: 8px 0 0 26px; color: var(--muted); }
+
+    footer { background: var(--tint); }
+    footer .wrap { display: flex; flex-wrap: wrap; gap: 8px 22px; padding-top: 24px; padding-bottom: 44px; font-size: 14px; color: var(--muted); }
+    footer p { margin: 0; flex-basis: 100%; }
+
+    @media (max-width: 880px) {
+      .hero, .flag-grid { grid-template-columns: 1fr; }
+      .exhibit { max-width: 400px; width: 100%; margin: 0 auto; }
+      .head { grid-template-columns: 1fr; gap: 6px; }
+      .head p { grid-column: 1; }
+      .tab, .tab:nth-child(even) { grid-template-columns: 1fr; gap: 24px; }
+      .tab:nth-child(even) .tab-text { order: 0; }
+      .tab .phone { max-width: 260px; }
+      .pfacts { grid-template-columns: 1fr 1fr; }
+      .cta { margin-bottom: 36px; }
+    }
+    @media (max-width: 600px) {
+      body { font-size: 16px; }
+      header .wrap { gap: 12px; }
+      .brand { font-size: 21px; }
+      nav { gap: 14px; font-size: 14px; }
+      nav .wide { display: none; }
+      .kicker { font-size: 12px; letter-spacing: .08em; }
+      section { padding: 48px 0; }
+      .exhibit .phone { width: 230px; }
+      .chip { font-size: 13px; max-width: 210px; bottom: 40px; }
+      .duo .phone { width: 46%; }
+      .duo .phone:nth-child(2) { margin-top: 32px; }
+      .steps, .pfacts { grid-template-columns: 1fr; gap: 18px; }
+      .privacy { padding: 28px 20px; }
+      .shots figure { width: 180px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="top">
+    <header>
+      <div class="wrap">
+        <a class="brand" href="#"><img src="favicon.svg" alt="">Skarbiec</a>
+        <nav>
+          <a class="wide" href="#zakladki">Zakładki</a>
+          <a href="#cennik">Cennik</a>
+          <a href="#pomoc">Pomoc</a>
+        </nav>
+      </div>
+    </header>
+    <section class="wrap hero">
+      <div>
+        <p class="kicker">Aplikacja na iPhone'a · dla inwestujących na warszawskiej giełdzie</p>
+        <h1>Twoje spółki pod kontrolą. <em>Wszystko o&nbsp;nich</em> — pod ręką.</h1>
+        <p class="lead">Wiadomości, filmy z YouTube, raporty i dywidendy spółek, które masz — zebrane codziennie w jednym
+          miejscu. A obok Twój prawdziwy wynik: z dywidendami, na tle indeksu i inflacji, z PIT-38 i limitami IKE i IKZE.</p>
+        <div class="cta">
+          <!-- Po publikacji: href = adres aplikacji w App Store, bez aria-disabled, tekst „Pobierz z App Store” -->
+          <a class="btn" id="appstore" aria-disabled="true">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.4 12.6c0-2.3 1.9-3.4 2-3.5-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.1-2.8.9-3.5.9s-1.8-.9-3-.8c-1.5 0-3 .9-3.8 2.3-1.6 2.8-.4 7 1.2 9.3.8 1.1 1.7 2.4 2.9 2.3 1.2 0 1.6-.7 3-.7s1.8.7 3 .7c1.3 0 2.1-1.1 2.8-2.3.9-1.3 1.3-2.6 1.3-2.6s-2.5-1-2.5-3.8zM14.1 5.8c.6-.8 1.1-1.9 1-3-1 0-2.1.7-2.8 1.5-.6.7-1.1 1.8-1 2.9 1.1.1 2.2-.6 2.8-1.4z"/></svg>
+            Wkrótce w App Store
+          </a>
+          <small>7 dni za darmo · bez zakładania konta</small>
+        </div>
+      </div>
+      <div class="exhibit">
+        <div class="phone"><img src="zrzuty/wiadomosci.jpg" width="598" height="1300" alt="Karta spółki CD PROJEKT: najnowsze artykuły z polskich serwisów"></div>
+        <div class="chip"><b>CD PROJEKT</b>
+          <ul><li>10 artykułów</li><li>5 filmów z YouTube</li><li>raport kwartalny za 38 dni</li></ul>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <main>
+    <section class="flag" id="wiadomosci">
+      <div class="wrap flag-grid">
+        <div>
+          <div class="head" style="grid-template-columns:1fr;margin-bottom:22px"><span class="sec">Najważniejsza funkcja</span>
+            <h2>Wiadomości i filmy o Twoich spółkach</h2></div>
+          <ul class="facts">
+            <li><b>Artykuły z polskich serwisów</b><span>Do 10 najnowszych tekstów o każdej spółce z ponad 20 serwisów
+              ekonomicznych, a do tego komunikaty spółki (ESPI/EBI).</span></li>
+            <li><b>Filmy z YouTube</b><span>5 filmów z ponad 50 polskich kanałów o inwestowaniu i z kanału samej spółki —
+              bez Shortsów.</span></li>
+            <li><b>Tylko o Twojej spółce</b><span>Filtr odrzuca teksty, w których ta sama nazwa znaczy coś innego, i spółki
+              o podobnych nazwach. Opisy filmów są bez linków i reklam.</span></li>
+            <li><b>Nowe od ostatniej wizyty</b><span>Od razu widzisz, co pojawiło się, odkąd ostatnio zaglądałeś do spółki.</span></li>
+          </ul>
+        </div>
+        <div class="duo">
+          <div class="phone"><img src="zrzuty/wiadomosci.jpg" width="598" height="1300" loading="lazy" alt="Najnowsze artykuły o spółce"></div>
+          <div class="phone"><img src="zrzuty/filmy.jpg" width="598" height="1300" loading="lazy" alt="Materiały na YouTube o spółce"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="wrap" id="zakladki">
+      <div class="head"><span class="sec">Zakładki</span><h2>Co znajdziesz w aplikacji</h2>
+        <p>Pięć zakładek na dole ekranu i Ustawienia pod ikoną koła zębatego.</p></div>
+      <div class="tabs">
+        <div class="tab">
+          <div class="tab-text">
+            <span class="tab-name">Spółki</span>
+            <h3>Wszystko o obserwowanych spółkach i ETF-ach</h3>
+            <p>Dodajesz spółkę albo fundusz z GPW, a Skarbiec codziennie zbiera o nich informacje.</p>
+            <ul>
+              <li>kurs zamknięcia i wykres: linia albo świece, wolumen, średnie 50 i 200 sesji</li>
+              <li>terminy raportów: ostatnie i najbliższe, z linkami do raportów i prezentacji</li>
+              <li>wiadomości i filmy z YouTube, nowe oznaczone od ostatniej wizyty</li>
+              <li>linki do rekomendacji domów maklerskich</li>
+              <li>przy ETF-ach: co fundusz śledzi, skład indeksu, stopy zwrotu, ostrzeżenia przy dźwigni</li>
+            </ul>
+          </div>
+          <div class="phone"><img src="zrzuty/spolka.jpg" width="598" height="1300" loading="lazy" alt="Zakładka Spółki: wykres kursu"></div>
+        </div>
+        <div class="tab">
+          <div class="tab-text">
+            <span class="tab-name">Portfel</span>
+            <h3>Twój wynik bez arkusza kalkulacyjnego</h3>
+            <p>Wczytujesz raport z biura maklerskiego (np. XTB) albo wpisujesz transakcje ręcznie — konta IKE, IKZE, OKI i zwykłe.</p>
+            <ul>
+              <li>wartość, zysk łącznie ze sprzedażami i dywidendami, stopy zwrotu</li>
+              <li>porównanie z tym samym wkładem w WIG20 z dywidendami i z inflacją</li>
+              <li>limity wpłat IKE i IKZE, ulga IKZE, oszczędność na podatku Belki</li>
+              <li>PIT-38: metoda FIFO, kursy NBP, straty z lat ubiegłych, numery pól zeznania</li>
+              <li>obligacje skarbowe z odsetkami i akcje zagraniczne</li>
+            </ul>
+            <div class="receipt num" aria-label="Przykładowy wynik portfela">
+              <h4>Tak Skarbiec rozkłada wynik (przykład)</h4>
+              <div class="line"><span>Koszt zakupu</span><i></i><b>17 299,75 zł</b></div>
+              <div class="line"><span>Zysk na otwartych pozycjach</span><i></i><b class="gain">+12 042,15 zł</b></div>
+              <div class="line total"><span>Wartość akcji</span><i></i><b>29 341,90 zł</b></div>
+              <div class="line"><span>Zrealizowany zysk</span><i></i><b class="gain">+207,30 zł</b></div>
+              <div class="line"><span>Dywidendy</span><i></i><b class="gain">+221,13 zł</b></div>
+              <div class="line total"><span>Zysk łącznie</span><i></i><b class="gain">+12 470,58 zł</b></div>
+            </div>
+          </div>
+          <div class="phone"><img src="zrzuty/portfel.jpg" width="598" height="1300" loading="lazy" alt="Zakładka Portfel: wartość i zysk"></div>
+        </div>
+        <div class="tab">
+          <div class="tab-text">
+            <span class="tab-name">Kalendarz</span>
+            <h3>Żaden termin Ci nie umknie</h3>
+            <p>Raporty, dywidendy i walne zgromadzenia spółek, które masz, a także wykup i odsetki obligacji.</p>
+            <ul>
+              <li>ile dywidendy dostaniesz za swoje akcje</li>
+              <li>własne wydarzenia i spółki spoza portfela</li>
+              <li>przypomnienia na iPhonie i eksport do Kalendarza iPhone'a</li>
+            </ul>
+          </div>
+          <div class="phone"><img src="zrzuty/kalendarz.jpg" width="598" height="1300" loading="lazy" alt="Zakładka Kalendarz"></div>
+        </div>
+        <div class="tab">
+          <div class="tab-text">
+            <span class="tab-name">Analiza</span>
+            <h3>Wskaźniki spółki z jej raportów</h3>
+            <p>Każda spółka z Głównego Rynku GPW: liczby z raportów okresowych na tle branży.</p>
+            <ul>
+              <li>C/Z, C/WK, C/P, ROE, ROA, marże, dynamika, zadłużenie, stopa dywidendy</li>
+              <li>przychody i zysk po latach i kwartałach, zmiana kursu, historia dywidend</li>
+              <li>akcjonariusze i porównanie dwóch spółek obok siebie</li>
+            </ul>
+          </div>
+          <div class="phone"><img src="zrzuty/analiza.jpg" width="598" height="1300" loading="lazy" alt="Zakładka Analiza"></div>
+        </div>
+        <div class="tab">
+          <div class="tab-text">
+            <span class="tab-name">Rynek</span>
+            <h3>Przegląd całej giełdy w minutę</h3>
+            <p>Za dzień, tydzień, miesiąc, od początku roku albo rok.</p>
+            <ul>
+              <li>indeksy GPW i ile spółek rosło, a ile spadało</li>
+              <li>największe wzrosty i spadki oraz indeksy sektorów</li>
+              <li>kursy walut NBP, inflacja i stopa procentowa NBP</li>
+              <li>wiadomości z polskiego rynku</li>
+            </ul>
+          </div>
+          <div class="phone"><img src="zrzuty/rynek.jpg" width="598" height="1300" loading="lazy" alt="Zakładka Rynek"></div>
+        </div>
+        <div class="tab">
+          <div class="tab-text">
+            <span class="tab-name">Ustawienia</span>
+            <h3>Po Twojemu</h3>
+            <ul>
+              <li>tryb jasny i ciemny, trzy zestawy kolorów</li>
+              <li>godzina codziennego odświeżania danych</li>
+              <li>przypomnienia o terminach i eksport kalendarza</li>
+              <li>kursy akcji zagranicznych z Twojego darmowego klucza Alpha Vantage</li>
+              <li>przywracanie zakupów na nowym iPhonie</li>
+            </ul>
+          </div>
+          <div class="phone"><img src="zrzuty/ustawienia.jpg" width="598" height="1300" loading="lazy" alt="Ustawienia"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="band" id="ekrany">
+      <div class="wrap">
+        <div class="head"><span class="sec">Więcej ekranów</span><h2>Tak to wygląda</h2><p>Zrzuty z przykładowym portfelem.</p></div>
+        <div class="shots">
+          <figure><div class="phone"><img src="zrzuty/wartosc.jpg" width="598" height="1300" loading="lazy" alt="Wartość portfela w czasie"></div><figcaption>Wartość na tle indeksu i inflacji</figcaption></figure>
+          <figure><div class="phone"><img src="zrzuty/pit.jpg" width="598" height="1300" loading="lazy" alt="PIT-38"></div><figcaption>PIT-38 krok po kroku</figcaption></figure>
+          <figure><div class="phone"><img src="zrzuty/filmy.jpg" width="598" height="1300" loading="lazy" alt="Filmy z YouTube"></div><figcaption>Filmy o spółce</figcaption></figure>
+          <figure><div class="phone"><img src="zrzuty/kalendarz.jpg" width="598" height="1300" loading="lazy" alt="Kalendarz"></div><figcaption>Raporty i dywidendy</figcaption></figure>
+          <figure><div class="phone"><img src="zrzuty/rynek.jpg" width="598" height="1300" loading="lazy" alt="Rynek"></div><figcaption>Przegląd rynku</figcaption></figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="wrap">
+      <div class="head"><span class="sec">Na start</span><h2>Wynik w trzy minuty</h2></div>
+      <div class="steps">
+        <div><h3>Pobierz raport z biura</h3><p>W aplikacji jest instrukcja krok po kroku dla Twojego biura maklerskiego.</p></div>
+        <div><h3>Wczytaj go w Skarbcu</h3><p>Kolumny i spółki Skarbiec rozpozna sam. Transakcje możesz też dopisać ręcznie.</p></div>
+        <div><h3>Zobacz wynik</h3><p>Wartość, zysk, porównanie z indeksem i limity IKE i IKZE — jeszcze przed zakupem.</p></div>
+      </div>
+    </section>
+
+    <section class="wrap" id="prywatnosc">
+      <div class="privacy">
+        <span class="sec">Prywatność</span>
+        <p class="quote">Twoje transakcje nie trafiają do nas. Zostają na&nbsp;Twoim telefonie.</p>
+        <div class="pfacts">
+          <div><b>Bez konta</b>nie ma rejestracji ani logowania</div>
+          <div><b>Bez śledzenia</b>żadnej analityki ani reklam</div>
+          <div><b>Bez pośredników</b>dane telefon pobiera sam, prosto ze źródeł</div>
+          <div><b>„Dane nie są zbierane”</b>etykieta w App Store · <a href="prywatnosc.html">polityka prywatności</a></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="wrap" id="cennik">
+      <div class="head"><span class="sec">Cennik</span><h2>Jedna aplikacja, trzy sposoby zapłaty</h2>
+        <p>W każdym planie wszystkie funkcje. Płacisz przez App Store.</p></div>
+      <div class="prices">
+        <div class="price"><h3>Miesięcznie</h3><i></i><span class="amt">19,99 zł <small>/ mies.</small></span>
+          <p>Pierwsze 7 dni za darmo, potem odnawia się co miesiąc.</p></div>
+        <div class="price"><h3>Rocznie</h3><span class="tag">37% taniej</span><i></i><span class="amt">149,99 zł <small>/ rok</small></span>
+          <p>Pierwsze 7 dni za darmo, potem 12,50 zł miesięcznie, płatne raz w roku.</p></div>
+        <div class="price"><h3>Bez terminu</h3><i></i><span class="amt">399,99 zł <small>raz</small></span>
+          <p>Jedna płatność, bez abonamentu — dostęp tak długo, jak Skarbiec jest w App Store.</p></div>
+      </div>
+      <p class="fine">Abonament odnawia się sam, dopóki go nie anulujesz w ustawieniach konta Apple — najpóźniej 24 godziny
+        przed końcem okresu (także okresu próbnego). Okres próbny przysługuje raz na Apple ID.</p>
+    </section>
+
+    <section class="wrap" id="pomoc">
+      <div class="head"><span class="sec">Pomoc</span><h2>Pytania i kontakt</h2></div>
+      <p class="contact">Napisz: <a href="mailto:akobhector@gmail.com">akobhector@gmail.com</a> — odpowiadamy zwykle w ciągu
+        2 dni roboczych.</p>
+      <div class="faq">
+        <details>
+          <summary>Jak wgrać raport z biura maklerskiego?</summary>
+          <p>W aplikacji: Portfel → „+ Nowe konto” → instrukcja dla Twojego biura. Plik możesz też wysłać z aplikacji biura
+            albo z Plików: Udostępnij → Skarbiec.</p>
+        </details>
+        <details>
+          <summary>Z jakimi biurami działa?</summary>
+          <p>Najlepiej sprawdzony jest raport z XTB (plik Excel albo ZIP ze wszystkimi kontami). Pliki CSV i Excel z innych
+            biur (np. mBank, Trading 212, Revolut, Interactive Brokers) Skarbiec czyta, rozpoznając kolumny. Transakcje
+            możesz też dopisać ręcznie.</p>
+        </details>
+        <details>
+          <summary>Skąd są wiadomości i filmy?</summary>
+          <p>Z kanałów RSS polskich serwisów ekonomicznych, komunikatów spółek na GPW i kanałów RSS YouTube. Telefon pobiera je
+            sam; Skarbiec pokazuje tytuł, źródło i początek opisu, a cały tekst otwiera się na stronie autora.</p>
+        </details>
+        <details>
+          <summary>Plik się nie wczytał.</summary>
+          <p>Użyj „Wyślij opis pliku” — dostaniemy opis budowy pliku bez nazw spółek, kwot i numerów kont, a my dodamy obsługę
+            Twojego biura.</p>
+        </details>
+        <details>
+          <summary>Czy kursy są na żywo?</summary>
+          <p>Nie — to ceny zamknięcia z ostatniej sesji z archiwum notowań giełdy i kursy walut NBP. Akcje zagraniczne:
+            z Twojego własnego, darmowego klucza Alpha Vantage albo z kursu wpisanego ręcznie.</p>
+        </details>
+        <details>
+          <summary>Jak anulować abonament?</summary>
+          <p>Na iPhonie: Ustawienia → Twoje konto Apple → Subskrypcje → Skarbiec. Zrób to najpóźniej 24 godziny przed końcem
+            okresu (także okresu próbnego).</p>
+        </details>
+        <details>
+          <summary>Mam nowego iPhone'a.</summary>
+          <p>W aplikacji: Ustawienia → „Przywróć zakupy”. Dane portfela przeniesie kopia zapasowa iPhone'a.</p>
+        </details>
+        <details>
+          <summary>Czy Skarbiec doradza, co kupić?</summary>
+          <p>Nie. Skarbiec pokazuje dane i obliczenia — nie udziela rekomendacji ani porad inwestycyjnych. PIT-38 to
+            szacunek: sprawdź go przed złożeniem zeznania.</p>
+        </details>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <span>© 2026 Skarbiec</span>
+      <a href="prywatnosc.html">Polityka prywatności</a>
+      <a href="mailto:akobhector@gmail.com">akobhector@gmail.com</a>
+      <p>Skarbiec nie udziela rekomendacji ani porad inwestycyjnych. Kursy to ceny zamknięcia z poprzedniej sesji, nie
+        notowania na żywo. Nazwy indeksów i spółek należą do ich właścicieli.</p>
+    </div>
+  </footer>
+</body>
+</html>

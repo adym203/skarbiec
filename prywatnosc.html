@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Polityka prywatności · Skarbiec</title>
+  <!-- Polityka prywatności APLIKACJI (iPhone i komputer). Ten sam plik: w aplikacji (Ustawienia, ekran planów — działa bez
+       internetu) i pod publicznym adresem podanym w App Store Connect. Samodzielny — bez zewnętrznych stylów i skryptów. -->
+  <style>
+    :root { color-scheme: light dark; --bg: #f4f5f8; --card: #fff; --text: #10131a; --muted: #475061; --line: #e1e4eb; --accent: #3f63e0; }
+    @media (prefers-color-scheme: dark) { :root { --bg: #0d0f14; --card: #161922; --text: #f0f2f6; --muted: #b1b8c6; --line: #252a36; --accent: #6b8cff; } }
+    body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    main { max-width: 720px; margin: 0 auto; padding: 24px 16px 48px; }
+    article { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 20px 22px; }
+    h1 { font-size: 24px; margin: 0 0 4px; }
+    h2 { font-size: 17px; margin: 22px 0 6px; }
+    p, li { color: var(--text); }
+    .muted { color: var(--muted); font-size: 14px; }
+    a { color: var(--accent); }
+    .back { display: inline-block; margin-bottom: 14px; font-size: 15px; }
+  </style>
+</head>
+<body>
+  <main>
+    <a class="back" href="/#/ustawienia">← Wróć do aplikacji</a>
+    <article>
+      <h1>Polityka prywatności aplikacji Skarbiec</h1>
+      <p class="muted">Obowiązuje od 15 października 2026 r. Dotyczy aplikacji na iPhone'a i na komputer.</p>
+
+      <h2>W skrócie</h2>
+      <p>Skarbiec nie zbiera Twoich danych. Nie ma kont użytkowników, serwera z danymi aplikacji, analityki, reklam ani
+        śledzenia. Portfel, transakcje, pliki z biura maklerskiego, kalendarz i ustawienia zostają na Twoim urządzeniu.</p>
+
+      <h2>Dane na Twoim urządzeniu</h2>
+      <p>Aplikacja zapisuje w swoim folderze na urządzeniu to, co do niej wprowadzisz albo zaimportujesz: konta inwestycyjne,
+        transakcje, dywidendy, wpłaty, obligacje, obserwowane spółki, własne terminy i ustawienia, a także pobrane dane rynkowe.
+        Twórca aplikacji nie ma do nich dostępu. Na iPhonie dane mogą trafić do kopii zapasowej iCloud albo komputera — zgodnie
+        z ustawieniami Twojego iPhone'a (pobrane dane rynkowe są z kopii wyłączone). Usunięcie aplikacji usuwa jej dane z urządzenia.</p>
+
+      <h2>Połączenia z internetem</h2>
+      <p>Aby pokazać kursy, raporty i wiadomości, urządzenie samo pobiera publiczne dane bezpośrednio ze źródeł:
+        Giełda Papierów Wartościowych w Warszawie (gpw.pl, newconnect.pl, gpwbenchmark.pl), Narodowy Bank Polski, GUS,
+        obligacjeskarbowe.pl, kanały RSS wydawców i YouTube, strony internetowe spółek. Jeśli sam wpiszesz własny klucz
+        Alpha Vantage, aplikacja pobiera z tego serwisu kursy akcji zagranicznych. Te serwisy widzą adres IP Twojego
+        urządzenia i to, o co pyta aplikacja (np. symbol spółki) — tak jak przy zwykłym otwieraniu stron. Aplikacja nie
+        wysyła im danych Twojego portfela (liczby akcji, kwot, transakcji).</p>
+
+      <h2>Zakupy (iPhone)</h2>
+      <p>Abonament i dostęp dożywotni kupujesz w App Store. Płatność, odnowienia i anulowanie obsługuje Apple na zasadach
+        swojej polityki prywatności. Twórca aplikacji nie widzi Twojego Apple ID ani danych płatniczych — od Apple otrzymuje
+        tylko zbiorcze raporty sprzedaży.</p>
+
+      <h2>Kalendarz i powiadomienia (iPhone)</h2>
+      <p>Tylko po Twojej zgodzie: aplikacja tworzy osobny kalendarz „Skarbiec” z terminami Twoich spółek i nie czyta innych
+        kalendarzy; przypomnienia to powiadomienia lokalne, ustawiane na telefonie.</p>
+
+      <h2>Pliki i opis pliku</h2>
+      <p>Raport z biura maklerskiego jest czytany na urządzeniu i nigdzie nie jest wysyłany. Funkcja „Wyślij opis pliku”
+        przygotowuje opis budowy pliku bez nazw spółek, kwot i numerów kont — wysyłasz go sam (np. e-mailem), tylko jeśli chcesz.</p>
+
+      <h2>Dzieci</h2>
+      <p>Aplikacja nie jest skierowana do dzieci i nie zbiera danych żadnych użytkowników.</p>
+
+      <h2>Zmiany i kontakt</h2>
+      <p>O zmianach tej polityki poinformujemy w aktualizacji aplikacji. Pytania:
+        <a href="mailto:akobhector@gmail.com">akobhector@gmail.com</a>.</p>
+    </article>
+  </main>
+  <script>
+    // „Wróć do aplikacji” tylko w aplikacji (strona z jej serwera); w internecie i w okienku na ekranie planów — bez niego
+    if (!/^(127\.0\.0\.1|localhost)$/.test(location.hostname)) document.querySelector('.back').remove();
+  </script>
+</body>
+</html>
